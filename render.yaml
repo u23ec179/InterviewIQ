@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: interviewiq-server
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: "cd server && npm install"
+    startCommand: "cd server && npm start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+    routes:
+      - path: /api
+        destination: /api
+
+  - type: static
+    name: interviewiq-client
+    runtime: static
+    plan: free
+    region: oregon
+    buildCommand: "cd client && npm install && npm run build"
+    staticPublishPath: client/dist
+    routes:
+      - path: /
+        destination: /index.html
